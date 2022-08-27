@@ -6,6 +6,7 @@ import {hotelsRouter} from "./routes/hotels.router";
 import {roomsRouter} from "./routes/rooms.router";
 import {usersRouter} from "./routes/users.router";
 import {NextFunction, Request, Response} from "express";
+import cookieParser from "cookie-parser";
 
 export interface Error {
     status?: number;
@@ -17,6 +18,7 @@ const app = express();
 dotenv.config();
 
 //middlewares
+app.use(cookieParser());
 app.use(express.json());
 
 app.use('/api/auth', authRouter);
