@@ -7,12 +7,7 @@ import {roomsRouter} from "./routes/rooms.router";
 import {usersRouter} from "./routes/users.router";
 import {NextFunction, Request, Response} from "express";
 import cookieParser from "cookie-parser";
-
-export interface Error {
-    status?: number;
-    message?: string;
-    stack?: string;
-}
+import {myError} from "./utils/error";
 
 const app = express();
 dotenv.config();
@@ -26,7 +21,7 @@ app.use('/api/hotels', hotelsRouter);
 app.use('/api/rooms', roomsRouter);
 app.use('/api/users', usersRouter);
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((err: myError, req: Request, res: Response, next: NextFunction) => {
     const errStatus = err.status || 500;
     const errMessage = err.message || 'Something went wrong';
     res.status(errStatus).json({
