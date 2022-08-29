@@ -8,11 +8,16 @@ import {usersRouter} from "./routes/users.router";
 import {NextFunction, Request, Response} from "express";
 import cookieParser from "cookie-parser";
 import {myError} from "./utils/error";
+import cors from "cors";
 
 const app = express();
 dotenv.config();
 
 //middlewares
+app.use(cors({
+    origin: process.env.CORS_ORIGIN,
+}));
+
 app.use(cookieParser());
 app.use(express.json());
 
