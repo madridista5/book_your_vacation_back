@@ -1,6 +1,7 @@
 import {Router} from "express";
 import {
     countByCity,
+    countByType,
     createHotel,
     deleteHotel,
     getAllHotels,
@@ -16,6 +17,6 @@ hotelsRouter
     .put('/:id', verifyAdmin, updateHotel)
     .delete('/:id', verifyAdmin, deleteHotel)
     .get('/countByCity', countByCity)
+    .get('/countByType', countByType)
     .get('/:id', getOneHotel)
-    .get('/', getAllHotels)
-    // .get('/countByType',);
+    .get('/', getAllHotels);
