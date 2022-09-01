@@ -1,5 +1,6 @@
 import {NextFunction, Request, Response} from "express";
 import Hotel from "../models/Hotel";
+import Room from "../models/Room";
 
 export const createHotel = async (req: Request, res: Response, next: NextFunction) => {
     const newHotel = new Hotel(req.body);
@@ -78,12 +79,28 @@ export const countByCity = async (req: Request, res: Response, next: NextFunctio
 }
 
 export const countByType = async (req: Request, res: Response, next: NextFunction) => {
-    const hotelCount = await Hotel.countDocuments({type: 'hotel'});
-    const apartmentCount = await Hotel.countDocuments({type: 'apartament'});
-    const resortCount = await Hotel.countDocuments({type: 'resort'});
-    const villaCount = await Hotel.countDocuments({type: 'rezydencja'});
+    try {
+        const hotelCount = await Hotel.countDocuments({type: 'hotel'});
+        const apartmentCount = await Hotel.countDocuments({type: 'apartament'});
+        const resortCount = await Hotel.countDocuments({type: 'resort'});
+        const villaCount = await Hotel.countDocuments({type: 'rezydencja'});
 
-    res.status(200).json([
-        hotelCount, apartmentCount, resortCount, villaCount,
-    ]);
+        res.status(200).json([
+            hotelCount, apartmentCount, resortCount, villaCount,
+        ]);
+    } catch (err) {
+        next(err);
+    }
+}
+
+export const getHotelRooms = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const hotel = await Hotel.findById(req.params.id);
+        const list = await Promise.all(hotel.rooms.map(room => {
+            return Room.findById(room);
+        }));
+        res.status(200).json(list);
+    } catch (err) {
+        next(err);
+    }
 }
