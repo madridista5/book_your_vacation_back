@@ -4,7 +4,7 @@ import {
     countByType,
     createHotel,
     deleteHotel,
-    getAllHotels,
+    getAllHotels, getHotelRooms,
     getOneHotel,
     updateHotel
 } from "../controllers/hotel.controller";
@@ -19,4 +19,5 @@ hotelsRouter
     .get('/countByCity', countByCity)
     .get('/countByType', countByType)
     .get('/:id', getOneHotel)
-    .get('/', getAllHotels);
+    .get('/', getAllHotels)
+    .get('/room/:id', getHotelRooms);
